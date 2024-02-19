@@ -14,7 +14,7 @@ export const loginUser = async(req:Request,res:Response) => {
     const {email,password} = req.body;
 
     try {
-        const user = await User.findOne({email});
+        const user = await User.findOne({email}).maxTimeMS(20000);
         if(!user){
             return res.status(400).json({message:"Invalid credentials"})
         }
