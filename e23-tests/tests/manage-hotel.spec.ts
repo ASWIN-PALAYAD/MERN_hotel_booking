@@ -46,14 +46,35 @@ test("should allow user to add a hotel",async({page})=> {
 
 test("should displa hotels",async({page})=>{
     await page.goto(`${UI_URL}/my-hotels`);
-    await expect(page.getByText("Test name")).toBeVisible();
-    await expect(page.getByText("test description")).toBeVisible();
-    await expect(page.getByText("test city,test country")).toBeVisible();
-    await expect(page.getByText("Budget")).toBeVisible();
-    await expect(page.getByText("100 per night")).toBeVisible();
-    await expect(page.getByText("2 adults , 1 children")).toBeVisible();
-    await expect(page.getByText("3 Star Rating")).toBeVisible();
+    await expect(page.getByText("Test name").first()).toBeVisible();
+    await expect(page.getByText("test description").first()).toBeVisible();
+    await expect(page.getByText("test city,test country").first()).toBeVisible();
+    await expect(page.getByText("Budget").first()).toBeVisible();
+    await expect(page.getByText("100 per night").first()).toBeVisible();
+    await expect(page.getByText("2 adults , 1 children").first()).toBeVisible();
+    await expect(page.getByText("3 Star Rating").first()).toBeVisible();
 
-    await expect(page.getByRole('link',{name:"View Details"})).toBeVisible();
+    await expect(page.getByRole('link',{name:"View Details"}).first()).toBeVisible();
     await expect(page.getByRole('link',{name:"Add Hotel"})).toBeVisible();
+});
+
+test("should edit hotel",async({page})=>{
+    await page.goto(`${UI_URL}/my-hotels`);
+    
+    await page.getByRole("link",{name:"View Details"}).first().click();
+
+    await page.waitForSelector('[name=name]',{state:"attached"});
+    await expect(page.locator('[name=name]')).toHaveValue('Test name');
+    await page.locator('[name=name]').fill("Test name updated");
+
+    await page.getByRole("button",{name:"Save"}).click();
+
+    await expect(page.getByText("Hotel Saved!")).toBeVisible();
+
+    await page.reload();
+
+    await expect(page.locator('[name=name]')).toHaveValue("Test name updated");
+    await page.locator('[name=name]').fill("Test name");
+    await page.getByRole("button",{name:"Save"}).click();
+
 })
