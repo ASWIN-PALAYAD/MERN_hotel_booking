@@ -52,7 +52,7 @@ const SearchBar = () => {
         <label className="items-center flex">
           Adults:
           <input
-            type="text"
+            type="number"
             className="w-full p-1 focus:outline-none font-bold"
             min={1}
             max={20}
@@ -63,7 +63,7 @@ const SearchBar = () => {
         <label className="items-center flex">
           Childrens:
           <input
-            type="text"
+            type="number"
             className="w-full p-1 focus:outline-none font-bold"
             min={0}
             max={20}

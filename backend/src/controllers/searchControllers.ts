@@ -1,10 +1,32 @@
 import { Request, Response } from "express"
 import Hotel from "../models/hoterModel";
 import { HotelSearchResponse } from "../shared/types";
+import { validationResult } from "express-validator";
 
+
+
+//fetch single hotel details 
+export const singleHotelDetails = async(req:Request,res:Response)=> {
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors:errors.array()});
+  }
+
+  const id = req.params.id.toString();
+
+  try {
+    const hotel = await Hotel.findById(id);
+    res.json(hotel);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message:"Error fetching hotel"});
+    
+  }
+}
+
+//search hotels with sort and filters
 export const searchHotels = async(req:Request,res:Response) => {
   
-    
    try {
 
     const query = constructSearchQuery(req.query);

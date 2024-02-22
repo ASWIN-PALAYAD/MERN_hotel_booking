@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { text } from 'stream/consumers';
 
 
 const UI_URL = "http://localhost:5173"
@@ -25,4 +26,17 @@ test("Should show hotel search results",async({page})=>{
 
     await expect(page.getByText("Hotels found in calicut")).toBeVisible();
     await expect(page.getByText("Hotel calicut")).toBeVisible();
+});
+
+test("Should show hotel search details", async({page})=>{
+    await page.goto(UI_URL);
+
+    await page.getByPlaceholder("Where are you going").fill("calicut");
+    await page.getByRole('button',{name:"Search"}).click();
+
+    await page.getByText("Hotel calicut").click();
+
+    await expect(page).toHaveURL(/detail/);
+    await expect(page.getByRole("button",{name:"Book Now"})).toBeVisible();
+
 })
