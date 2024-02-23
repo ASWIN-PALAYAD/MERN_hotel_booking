@@ -9,6 +9,18 @@ import User from "../models/userModel";
 const stripe = new Stripe(process.env.STRIPE_API_KEY as string);
 
 
+//gety all hotesls
+export const getAllHotels = async(req:Request,res:Response) => {
+  try {
+    const hotels = await Hotel.find().sort("-lastUpdated");
+    res.json(hotels);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({message:"Error fetching hotels"});
+    
+  }
+}
+
 //fetch single hotel details 
 export const singleHotelDetails = async(req:Request,res:Response)=> {
   const errors = validationResult(req);
