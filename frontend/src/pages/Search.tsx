@@ -35,7 +35,6 @@ const Search = () => {
         sortOption,
 
     }
-    console.log(searchParams);
     
 
     const {data : hotelData} = useQuery(["searchHotels",searchParams],()=>
@@ -101,7 +100,7 @@ const Search = () => {
                 </select>
             </div>
             {hotelData?.data.map((hotel)=>(
-                <SearchResultCard hotel={hotel}/>
+                <SearchResultCard hotel={hotel} key={hotel._id}/>
             ))}
             <div>
                 <Pagination page={hotelData?.pagination.page || 1} pages={hotelData?.pagination?.pages || 1} onPageChange={(page)=>setPage(page)} />
